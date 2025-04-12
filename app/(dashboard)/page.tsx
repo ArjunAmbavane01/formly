@@ -1,6 +1,12 @@
 
 export default function Home() {
   return (
-    <div>Hello</div>
+    <div className="container pt-4">
+
+    </div>
   );
+}
+
+const CardStatsWrapper = () => {
+  
 }
