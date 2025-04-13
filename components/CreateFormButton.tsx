@@ -11,8 +11,11 @@ import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
 import { toast } from "sonner"
 import { ImSpinner2 } from "react-icons/im";
+import { BsFileEarmarkPlus } from "react-icons/bs";
+import { useRouter } from "next/navigation";
 
 const CreateFormButton = () => {
+    const router = useRouter();
     const form = useForm<FormSchemaType>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -24,7 +27,7 @@ const CreateFormButton = () => {
     const onSubmit = async (values: FormSchemaType) => {
         try {
             const formId = await CreateForm(values);
-            console.log(formId)
+            router.push(`/builder/${formId}`)
             toast.success("Form created successfully");
         } catch (e) {
             toast.error("Something went wrong, please try again later")
@@ -33,7 +36,10 @@ const CreateFormButton = () => {
     return (
         <Dialog>
             <DialogTrigger asChild>
-                <Button>Create New Form</Button>
+                <Button variant={"outline"} className="group border border-primary/20 h-[190px] flex flex-col items-center justify-center hover:border-primary hover:cursor-pointer border-dashed gap-4">
+                <BsFileEarmarkPlus className="size-8 text-muted-foreground group-hover:text-primary" />
+                <p className="font-bold text-xl text-muted-foreground group-hover:text-primary">Create New Form</p>
+                </Button>
             </DialogTrigger>
             <DialogContent>
                 <DialogHeader>
