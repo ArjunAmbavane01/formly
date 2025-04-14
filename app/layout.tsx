@@ -4,6 +4,7 @@ import { Toaster } from "@/components/ui/sonner"
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
+import DesignerContextProvider from "@/components/context/DesingerContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -31,7 +32,8 @@ export default function RootLayout({
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
-          <ThemeProvider
+         <DesignerContextProvider>
+         <ThemeProvider
             attribute="class"
             defaultTheme="system"
             enableSystem
@@ -40,6 +42,7 @@ export default function RootLayout({
             {children}
             <Toaster richColors  />
           </ThemeProvider>
+         </DesignerContextProvider>
         </body>
       </html>
     </ClerkProvider>
