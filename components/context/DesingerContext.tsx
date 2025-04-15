@@ -5,6 +5,7 @@ import { FormElementInstance } from "../FormElements"
 
 type DesignerContextType = {
     elements: FormElementInstance[];
+    setElements: Dispatch<SetStateAction<FormElementInstance[]>>;
     addElement: (index: number, element: FormElementInstance) => void;
     removeElement: (id: string) => void;
 
@@ -34,14 +35,14 @@ export default function DesignerContextProvider({ children }: { children: ReactN
         setElements((prev) => prev.filter((element) => element.id !== id));
     }
 
-    const updateElement = (id: string,element: FormElementInstance) => {
+    const updateElement = (id: string, element: FormElementInstance) => {
         setElements((prev) => {
             const newElements = [...prev];
-            const index = newElements.findIndex((el)=>el.id === id);
+            const index = newElements.findIndex((el) => el.id === id);
             newElements[index] = element;
             return newElements;
         });
     }
 
-    return <DesignerContext.Provider value={{ elements, addElement, removeElement, selectedElement, setSelectedElement, updateElement }}>{children}</DesignerContext.Provider>
+    return <DesignerContext.Provider value={{ elements, setElements, addElement, removeElement, selectedElement, setSelectedElement, updateElement }}>{children}</DesignerContext.Provider>
 }
