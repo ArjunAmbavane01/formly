@@ -38,7 +38,7 @@ export const TextFieldFormElement: FormElement = {
         label: "Text fields"
     },
     designerComponent: DesignerComponent,
-    formComponent: () => <div>Form Component</div>,
+    formComponent: FormComponent,
     propertiesComponent: PropertiesComponent,
 }
 
@@ -58,6 +58,23 @@ function DesignerComponent({ elementInstance }: { elementInstance: FormElementIn
                 {required && "*"}
             </Label>
             <Input readOnly disabled placeholder={placeholder} />
+            {helperText && (
+                <p className="text-muted-foreground text-[0.8rem]">{helperText}</p>
+            )}
+        </div>
+    </div>
+}
+
+function FormComponent({ elementInstance }: { elementInstance: FormElementInstance }) {
+    const element = elementInstance as CustomInstance
+    const { label, required, placeholder, helperText } = element.extraAttributes;
+    return <div className="text-white">
+        <div className="flex flex-col w-full gap-2">
+            <Label>
+                {label}
+                {required && " *"}
+            </Label>
+            <Input placeholder={placeholder} />
             {helperText && (
                 <p className="text-muted-foreground text-[0.8rem]">{helperText}</p>
             )}
