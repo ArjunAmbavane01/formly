@@ -20,7 +20,7 @@ const FormLinkShare = ({ shareURL }: { shareURL: string }) => {
 
 
     return (
-        <div className="flex flex-col grow gap-4 items-center">
+        <div className="flex grow gap-4 items-center">
             <Input value={shareLink} readOnly />
             <Button
                 className="max-w-[250px]"

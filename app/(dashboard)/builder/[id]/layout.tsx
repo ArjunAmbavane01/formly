@@ -1,6 +1,6 @@
 import { ReactNode } from 'react'
 
-const layout = ({children}:{children:ReactNode}) => {
+const Layout = ({children}:{children:ReactNode}) => {
   return (
     <div className='flex w-full grow mx-auto'>
       {children}
@@ -8,4 +8,4 @@ const layout = ({children}:{children:ReactNode}) => {
   )
 }
 
-export default layout
+export default Layout

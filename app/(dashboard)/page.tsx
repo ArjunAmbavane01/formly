@@ -79,7 +79,6 @@ const StatsCards = ({ data, loading }: StatsCardsProps) => {
         loading={loading}
         className="shadow-md shadow-red-600"
       />
-
     </div>
   )
 }
@@ -93,7 +92,7 @@ interface StatsCardProps {
   className: string;
 }
 
-const StatsCard = ({ title, icon, helperText, value, loading, className }: StatsCardProps) => {
+export const StatsCard = ({ title, icon, helperText, value, loading, className }: StatsCardProps) => {
   return <Card className={className}>
     <CardHeader className="flex flex-row items-center justify-between pb-2">
       <CardTitle className="text-sm font-medium text-muted-foreground">{title}</CardTitle>
