@@ -71,9 +71,9 @@ function DesignerComponent({ elementInstance }: { elementInstance: FormElementIn
     </div>
 }
 
-function FormComponent({ elementInstance, submitValue, isInvalid }: { elementInstance: FormElementInstance, submitValue?: SubmitFunction, isInvalid?: boolean }) {
+function FormComponent({ elementInstance, submitValue, isInvalid, defaultValue }: { elementInstance: FormElementInstance, submitValue?: SubmitFunction, isInvalid?: boolean, defaultValue?: string }) {
 
-    const [value, setValue] = useState("");
+    const [value, setValue] = useState(defaultValue || "");
     const [error, setError] = useState(false);
 
     useEffect(() => {

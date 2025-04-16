@@ -1,15 +1,22 @@
 "use client"
 
-import { useCallback, useRef, useState } from 'react'
+import { useCallback, useRef, useState, useTransition } from 'react'
 import { FormElementInstance, FormElements } from './FormElements'
 import { Button } from './ui/button'
 import { toast } from 'sonner'
+import { HiCursorClick } from 'react-icons/hi'
+import { ImSpinner } from 'react-icons/im'
+import { SubmitForm } from '@/actions/form'
 
 const FormSubmitComponent = ({ formURL, content }: { formURL: string, content: FormElementInstance[] }) => {
 
+    const [renderKey, setRenderKey] = useState(new Date().getTime());
+    const [submitted, setSubmitted] = useState(false);
+
     const formValues = useRef<{ [Key: string]: string }>({});
     const formErrors = useRef<{ [Key: string]: boolean }>({});
-    const [renderKey,setRenderKey] = useState(new Date().getTime());
+
+    const [pending, startTransition] = useTransition();
 
     const validateForm = useCallback((): boolean => {
         for (const field of content) {
@@ -27,15 +34,36 @@ const FormSubmitComponent = ({ formURL, content }: { formURL: string, content: F
         formValues.current[key] = value;
     }, []);
 
-    const submitForm = () => {
+    const submitForm = async () => {
         formErrors.current = {};
         const validForm = validateForm();
-        if(!validForm) {
+        if (!validForm) {
             setRenderKey(new Date().getTime());
             toast.error("Please check the form for errors");
             return;
         }
-        console.log(formValues.current);
+
+        try {
+            const jsonContent = JSON.stringify(formValues.current);
+            await SubmitForm(formURL, jsonContent);
+            setSubmitted(true);
+            toast.error("Form submitted successfully");
+        } catch (err) {
+            toast.error("Something went wrong");
+        }
+    }
+
+    if (submitted) {
+        return (
+            <div className='flex justify-center size-full items-center p-8'>
+                <div className='max-w-[620px] flex flex-col gap-4 grow bg-background w-full p-8 overflow-y-auto border shadow-xl shadow-blue-700 rounded'>
+                    <h1 className='text-2xl font-bold'>Form Submitted</h1>
+                    <p className='text-muted-foreground'>
+                        Thankyou for submitting this form, you can close this page now.
+                    </p>
+                </div>
+            </div>
+        )
     }
 
     return (
@@ -46,12 +74,22 @@ const FormSubmitComponent = ({ formURL, content }: { formURL: string, content: F
                     return <FormElement
                         key={element.id}
                         elementInstance={element}
+                        defaultValue={formValues.current[element.id]}
                         submitValue={submitValue}
                         isInvalid={formErrors.current[element.id]}
                     />
                 })}
-                <Button className='mt-8' onClick={() => { submitForm(); }}>
-                    Submit
+                <Button
+                    className='mt-8'
+                    disabled={pending}
+                    onClick={() => { startTransition(submitForm) }}>
+                    {!pending && (
+                        <>
+                            <HiCursorClick className='mr-2' />
+                            Submit
+                        </>
+                    )}
+                    {pending && <ImSpinner className='animate-spin' />}
                 </Button>
             </div>
         </div>
