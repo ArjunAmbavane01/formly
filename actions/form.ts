@@ -129,6 +129,7 @@ export const SubmitForm = async (formURL: string, content: string) => {
     return await prismaClient.form.update({
         where: {
             shareURL: formURL,
+            published: true,
         },
         data: {
             submissions: {
@@ -141,4 +142,20 @@ export const SubmitForm = async (formURL: string, content: string) => {
             }
         }
     })
+}
+
+export const GetFormWithSubmissions = async (id: number) => {
+    const user = await currentUser();
+    if (!user) throw new UserNotFoundErr();
+
+    return await prismaClient.form.findUnique({
+        where: {
+            id,
+            userId: user.id
+        },
+        include: {
+            FormSubmissions: true
+        }
+    })
+
 }
