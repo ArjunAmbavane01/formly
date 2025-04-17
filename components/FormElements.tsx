@@ -1,8 +1,9 @@
 import { IconType } from "react-icons/lib";
 import { TextFieldFormElement } from "./fields/TextField";
 import { TitleFieldFormElement } from "./fields/TitleField";
+import { SubTitleFieldFormElement } from "./fields/SubTitleField";
 
-export type ElementsType = "TextField" | "TitleField";
+export type ElementsType = "TextField" | "TitleField" | "SubTitleField" | "Paragraph";
 
 export type SubmitFunction = (key: string, value: string) => void;
 
@@ -43,4 +44,6 @@ type FormElementsType = {
 export const FormElements: FormElementsType = {
     TextField: TextFieldFormElement,
     TitleField: TitleFieldFormElement,
+    SubTitleField: SubTitleFieldFormElement,
+    Paragraph: ParagraphFormElement,
 };

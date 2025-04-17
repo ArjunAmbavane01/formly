@@ -8,27 +8,27 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { ElementsType, FormElement, FormElementInstance } from "../FormElements"
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
-import { Form, FormControl, FormDescription, FormMessage, FormField, FormItem, FormLabel } from "../ui/form";
-import { LuHeading1 } from "react-icons/lu";
+import { Form, FormControl, FormMessage, FormField, FormItem, FormLabel } from "../ui/form";
+import { LuHeading2 } from "react-icons/lu";
 
-const type: ElementsType = "TitleField";
+const type: ElementsType = "SubTitleField";
 
 const extraAttributes = {
-    title: "Title Field",
+    title: "SubTitle Field",
 }
 
 const propertiesSchema = z.object({
     title: z.string().min(2).max(50),
 })
 
-export const TitleFieldFormElement: FormElement = {
+export const SubTitleFieldFormElement: FormElement = {
     type,
     construct: (id: string) => ({
         id, type, extraAttributes,
     }),
     designerBtnElement: {
-        icon: LuHeading1,
-        label: "Title Field"
+        icon: LuHeading2,
+        label: "SubTitle Field"
     },
     designerComponent: DesignerComponent,
     formComponent: FormComponent,
@@ -48,7 +48,7 @@ function DesignerComponent({ elementInstance }: { elementInstance: FormElementIn
     return <div className="text-white">
         <div className="flex flex-col w-full gap-2">
             <Label className="text-muted-foreground">Title Field</Label>
-                <p className="text-xl">{title}</p>
+                <p className="text-lg">{title}</p>
         </div>
     </div>
 }
@@ -59,7 +59,7 @@ function FormComponent({ elementInstance }: { elementInstance: FormElementInstan
     const { title } = element.extraAttributes;
 
     return (
-        <p className="text-xl">{title}</p>
+        <p className="text-lg">{title}</p>
     )
 }
 
