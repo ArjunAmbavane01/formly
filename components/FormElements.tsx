@@ -2,8 +2,11 @@ import { IconType } from "react-icons/lib";
 import { TextFieldFormElement } from "./fields/TextField";
 import { TitleFieldFormElement } from "./fields/TitleField";
 import { SubTitleFieldFormElement } from "./fields/SubTitleField";
+import { ParagraphFormElement } from "./fields/ParagraphField";
+import { SeparatorFieldFormElement } from "./fields/SeparatorField";
+import { SpacerFieldFormElement } from "./fields/SpacerField";
 
-export type ElementsType = "TextField" | "TitleField" | "SubTitleField" | "Paragraph";
+export type ElementsType = "TextField" | "TitleField" | "SubTitleField" | "ParagraphField" | "SeparatorField" | "SpacerField";
 
 export type SubmitFunction = (key: string, value: string) => void;
 
@@ -45,5 +48,7 @@ export const FormElements: FormElementsType = {
     TextField: TextFieldFormElement,
     TitleField: TitleFieldFormElement,
     SubTitleField: SubTitleFieldFormElement,
-    Paragraph: ParagraphFormElement,
+    ParagraphField: ParagraphFormElement,
+    SeparatorField: SeparatorFieldFormElement,
+    SpacerField: SpacerFieldFormElement,
 };
