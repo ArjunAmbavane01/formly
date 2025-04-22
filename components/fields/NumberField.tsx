@@ -9,12 +9,11 @@ import { ElementsType, FormElement, FormElementInstance, SubmitFunction } from "
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { Form, FormControl, FormDescription, FormMessage, FormField, FormItem, FormLabel } from "../ui/form";
-import { MdTextFields } from "react-icons/md";
 import { Switch } from "../ui/switch";
 import { cn } from "@/lib/utils";
 import { Bs123 } from "react-icons/bs";
 
-const type: ElementsType = "TextField";
+const type: ElementsType = "NumberField";
 
 const extraAttributes = {
     label: "Number field",
@@ -127,7 +126,6 @@ function PropertiesComponent({ elementInstance }: { elementInstance: FormElement
     }, [element, form]);
 
     const applyChanges = (values: propertiesFormSchemaType) => {
-        const { label, required, placeholder, helperText } = values;
         updateElement(element.id, {
             ...element,
             extraAttributes: { ...values }
@@ -214,7 +212,6 @@ function PropertiesComponent({ elementInstance }: { elementInstance: FormElement
                     </FormItem>
                 )}
             />
-
         </form>
     </Form>
 }

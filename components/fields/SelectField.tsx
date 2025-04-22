@@ -25,16 +25,18 @@ const extraAttributes = {
     helperText: "Helper text",
     required: false,
     placeholder: "Value here...",
-    options: [],
+    options: [] as string[],
 }
 
 const propertiesSchema = z.object({
     label: z.string().min(2).max(50),
     helperText: z.string().max(200),
-    required: z.boolean().default(false).optional(),
+    required: z.boolean(), 
     placeholder: z.string().max(50),
-    options: z.array(z.string()).default([]).transform(val => val ?? []),
-})
+    options: z.array(z.string()), 
+});
+
+type PropertiesFormSchemaType = z.infer<typeof propertiesSchema>;
 
 export const SelectFieldFormElement: FormElement = {
     type,
@@ -58,8 +60,6 @@ export const SelectFieldFormElement: FormElement = {
 type CustomInstance = FormElementInstance & {
     extraAttributes: typeof extraAttributes;
 }
-
-type propertiesFormSchemaType = z.infer<typeof propertiesSchema>;
 
 function DesignerComponent({ elementInstance }: { elementInstance: FormElementInstance }) {
     const element = elementInstance as CustomInstance
@@ -130,19 +130,30 @@ function FormComponent({ elementInstance, submitValue, isInvalid, defaultValue }
 function PropertiesComponent({ elementInstance }: { elementInstance: FormElementInstance }) {
     const { updateElement, setSelectedElement } = useDesigner();
     const element = elementInstance as CustomInstance;
-    const { label, required, placeholder, helperText, options } = element.extraAttributes;
-
-    const form = useForm<propertiesFormSchemaType>({
+    
+    const form = useForm<PropertiesFormSchemaType>({
         resolver: zodResolver(propertiesSchema),
         mode: "onSubmit",
-        defaultValues: { label, helperText, required, placeholder, options }
+        defaultValues: {
+            label: element.extraAttributes.label,
+            helperText: element.extraAttributes.helperText,
+            required: element.extraAttributes.required,
+            placeholder: element.extraAttributes.placeholder,
+            options: element.extraAttributes.options,
+        }
     });
 
     useEffect(() => {
-        form.reset(element.extraAttributes);
+        form.reset({
+            label: element.extraAttributes.label,
+            helperText: element.extraAttributes.helperText,
+            required: element.extraAttributes.required,
+            placeholder: element.extraAttributes.placeholder,
+            options: element.extraAttributes.options,
+        });
     }, [element, form]);
 
-    const applyChanges = (values: propertiesFormSchemaType) => {
+    const applyChanges = (values: PropertiesFormSchemaType) => {
         updateElement(element.id, {
             ...element,
             extraAttributes: { ...values }
@@ -151,7 +162,6 @@ function PropertiesComponent({ elementInstance }: { elementInstance: FormElement
         toast.success("Properties saved successfully");
         setSelectedElement(null);
     };
-
 
     return <Form {...form}>
         <form onSubmit={form.handleSubmit(applyChanges)} className="space-y-3">
@@ -203,7 +213,7 @@ function PropertiesComponent({ elementInstance }: { elementInstance: FormElement
                             }} />
                         </FormControl>
                         <FormDescription>
-                            The helper text of the field. <br /> It will be displayed above the field
+                            The helper text of the field. <br /> It will be displayed below the field
                         </FormDescription>
                         <FormMessage />
                     </FormItem>
@@ -221,7 +231,8 @@ function PropertiesComponent({ elementInstance }: { elementInstance: FormElement
                                 className="gap-2"
                                 onClick={(e) => {
                                     e.preventDefault();
-                                    form.setValue("options", field.value.concat("New option"));
+                                    const newOptions = [...field.value, "New option"];
+                                    field.onChange(newOptions);
                                 }}
                             >
                                 <AiOutlinePlus />
@@ -229,18 +240,27 @@ function PropertiesComponent({ elementInstance }: { elementInstance: FormElement
                             </Button>
                         </div>
                         <div className="flex flex-col gap-2">
-                            {form.watch("options").map((option, index) => (
+                            {field.value.map((option, index) => (
                                 <div key={index} className="flex items-center justify-between gap-1">
-                                    <Input placeholder="" value={option} onChange={((e) => {
-                                        field.value[index] = e.target.value;
-                                        field.onChange(field.value);
-                                    })} />
-                                    <Button variant={"ghost"} size={"icon"} onClick={e => {
-                                        e.preventDefault();
-                                        const newOptions = [...field.value]
-                                        newOptions.splice(index, 1)
-                                        field.onChange(newOptions);
-                                    }}>
+                                    <Input 
+                                        placeholder="" 
+                                        value={option} 
+                                        onChange={(e) => {
+                                            const newOptions = [...field.value];
+                                            newOptions[index] = e.target.value;
+                                            field.onChange(newOptions);
+                                        }} 
+                                    />
+                                    <Button 
+                                        variant={"ghost"} 
+                                        size={"icon"} 
+                                        onClick={e => {
+                                            e.preventDefault();
+                                            const newOptions = [...field.value];
+                                            newOptions.splice(index, 1);
+                                            field.onChange(newOptions);
+                                        }}
+                                    >
                                         <AiOutlineClose />
                                     </Button>
                                 </div>
@@ -248,7 +268,7 @@ function PropertiesComponent({ elementInstance }: { elementInstance: FormElement
                         </div>
 
                         <FormDescription>
-                            The helper text of the field. <br /> It will be displayed above the field
+                            The options for the select field
                         </FormDescription>
                         <FormMessage />
                     </FormItem>
