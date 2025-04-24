@@ -14,7 +14,7 @@ import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
 
 const FormDetailPage = async ({ params }: { params: { id: string } }) => {
-    const { id } = await params;
+    const { id } = params;
 
     const form = await GetFormbyId(Number(id));
 
@@ -114,8 +114,8 @@ const SubmissionTable = async ({ id }: { id: number }) => {
             case "CheckboxField":
                 columns.push({
                     id: element.id,
-                    label: element.extraAttributes?.label,
-                    required: element.extraAttributes?.required,
+                    label: element.extraAttributes?.label as string,
+                    required: element.extraAttributes?.required as boolean,
                     type: element.type,
                 })
                 break;
