@@ -1,7 +1,7 @@
 import { ReactNode, Suspense } from "react";
 import Link from "next/link";
 import { formatDistance } from "date-fns";
-import { Form } from "@prisma/client";
+import type { Form } from "@prisma/client";
 import { GetForms, GetFormStats } from "@/actions/form";
 import CreateFormButton from "@/components/CreateFormButton";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";

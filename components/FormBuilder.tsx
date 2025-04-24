@@ -1,6 +1,6 @@
 "use client"
 
-import { Form } from "@prisma/client"
+import type { Form } from "@prisma/client"
 import PreviewDialogBtn from "./PreviewDialogBtn"
 import SaveFormBtn from "./SaveFormBtn"
 import PublishFormBtn from "./PublishFormBtn"
