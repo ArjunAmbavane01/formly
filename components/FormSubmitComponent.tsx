@@ -48,7 +48,7 @@ const FormSubmitComponent = ({ formURL, content }: { formURL: string, content: F
             await SubmitForm(formURL, jsonContent);
             setSubmitted(true);
             toast.error("Form submitted successfully");
-        } catch (_) {
+        } catch {
             toast.error("Something went wrong");
         }
     }

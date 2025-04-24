@@ -15,7 +15,7 @@ const SaveFormBtn = ({id}:{id:number}) => {
             const jsonElements = JSON.stringify(elements);
             await UpdateFormContent(id, jsonElements);
             toast.success("Your form has been saved");
-        } catch (_) { 
+        } catch { 
             toast.error("Something went wrong");
         }
     }
