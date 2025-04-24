@@ -13,8 +13,12 @@ import { ReactNode } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
 
-const FormDetailPage = async ({ params }: { params: { id: string } }) => {
-    const { id } = params;
+type Props = {
+   params: Promise<{ id: string }>
+}
+
+const FormDetailPage = async ({ params }: Props) => {
+    const { id } = await params;
 
     const form = await GetFormbyId(Number(id));
 

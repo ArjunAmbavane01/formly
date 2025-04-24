@@ -42,7 +42,7 @@ export type FormElement = {
 export type FormElementInstance = {
     id: string;
     type: ElementsType;
-    extraAttributes: Record<string, string|number|boolean|string[]>;
+    extraAttributes?: Record<string, string|number|boolean|string[]>;
 }
 
 type FormElementsType = {
