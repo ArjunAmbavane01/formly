@@ -9,7 +9,6 @@ import { ElementsType, FormElement, FormElementInstance, SubmitFunction } from "
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { Form, FormControl, FormDescription, FormMessage, FormField, FormItem, FormLabel } from "../ui/form";
-import { MdTextFields } from "react-icons/md";
 import { Switch } from "../ui/switch";
 import { cn } from "@/lib/utils";
 import { BsTextareaResize } from "react-icons/bs";
@@ -61,7 +60,7 @@ type propertiesFormSchemaType = z.infer<typeof propertiesSchema>;
 
 function DesignerComponent({ elementInstance }: { elementInstance: FormElementInstance }) {
     const element = elementInstance as CustomInstance
-    const { label, required, placeholder, helperText, rows } = element.extraAttributes;
+    const { label, required, placeholder, helperText } = element.extraAttributes;
     return <div className="text-white">
         <div className="flex flex-col w-full gap-2">
             <Label>

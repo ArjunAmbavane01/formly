@@ -28,7 +28,7 @@ const FormBuilder = ({ form }: { form: Form }) => {
         setSelectedElement(null);
         const readyTimeout = setTimeout(() => setIsReady(true), 500);
         return () => clearTimeout(readyTimeout);
-    }, [form, setElements, setSelectedElement])
+    }, [form, isReady, setElements, setSelectedElement])
 
     const mouseSensor = useSensor(MouseSensor, {
         activationConstraint: {

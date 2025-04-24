@@ -7,9 +7,8 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ElementsType, FormElement, FormElementInstance } from "../FormElements"
 import { Label } from "../ui/label";
-import { Input } from "../ui/input";
-import { Form, FormControl, FormDescription, FormMessage, FormField, FormItem, FormLabel } from "../ui/form";
-import { LuHeading1, LuSeparatorHorizontal } from "react-icons/lu";
+import { Form, FormControl, FormMessage, FormField, FormItem, FormLabel } from "../ui/form";
+import { LuSeparatorHorizontal } from "react-icons/lu";
 import { Slider } from "../ui/slider";
 
 const type: ElementsType = "SpacerField";

@@ -6,7 +6,7 @@ import { Tabs, TabsList, TabsTrigger } from "./ui/tabs";
 import { LaptopMinimal, Moon, Sun } from "lucide-react";
 
 const ThemeSwitcher = () => {
-    const { theme, setTheme } = useTheme();
+    const {setTheme } = useTheme();
     const [mounted, setMounted] = useState(false);
 
     useEffect(() => {

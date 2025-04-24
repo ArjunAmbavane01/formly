@@ -7,9 +7,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ElementsType, FormElement, FormElementInstance } from "../FormElements"
 import { Label } from "../ui/label";
-import { Input } from "../ui/input";
 import { Form, FormControl, FormMessage, FormField, FormItem, FormLabel } from "../ui/form";
-import { LuHeading2 } from "react-icons/lu";
 import { BsTextParagraph } from "react-icons/bs";
 import { Textarea } from "../ui/textarea";
 

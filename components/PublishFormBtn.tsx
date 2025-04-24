@@ -17,7 +17,7 @@ const PublishFormBtn = ({ id }: { id: number }) => {
             await PublishForm(id);
             toast.success("Your form is now available to the public");
             router.refresh();
-        } catch (err) {
+        } catch (_) {
             toast.error("Something went wrong");
 
         }

@@ -132,7 +132,6 @@ function PropertiesComponent({ elementInstance }: { elementInstance: FormElement
     }, [element, form]);
 
     const applyChanges = (values: propertiesFormSchemaType) => {
-        const { label, required, helperText } = values;
         updateElement(element.id, {
             ...element,
             extraAttributes: { ...values }

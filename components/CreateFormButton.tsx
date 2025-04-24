@@ -29,7 +29,7 @@ const CreateFormButton = () => {
             const formId = await CreateForm(values);
             router.push(`/builder/${formId}`)
             toast.success("Form created successfully");
-        } catch (e) {
+        } catch (_) {
             toast.error("Something went wrong, please try again later")
         }
     }

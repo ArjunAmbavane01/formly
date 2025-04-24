@@ -6,7 +6,7 @@ import { LuView } from "react-icons/lu";
 import { FaWpforms } from "react-icons/fa";
 import { HiCursorClick } from "react-icons/hi";
 import { TbArrowBounce } from "react-icons/tb";
-import { ElementsType, FormElementInstance, FormElements } from "@/components/FormElements";
+import { ElementsType, FormElementInstance } from "@/components/FormElements";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { format, formatDistance } from "date-fns";
 import { ReactNode } from "react";
@@ -26,7 +26,7 @@ const FormDetailPage = async ({ params }: { params: { id: string } }) => {
     if (visits > 0) {
         submissionRate = (submissions / visits) * 100;
     }
-    let bounceRate = 100 - submissionRate;
+    const bounceRate = 100 - submissionRate;
 
     return (
         <>

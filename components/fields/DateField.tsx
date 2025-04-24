@@ -59,7 +59,7 @@ type propertiesFormSchemaType = z.infer<typeof propertiesSchema>;
 
 function DesignerComponent({ elementInstance }: { elementInstance: FormElementInstance }) {
     const element = elementInstance as CustomInstance
-    const { label, required, placeholder, helperText } = element.extraAttributes;
+    const { label, required, helperText } = element.extraAttributes;
     return <div className="text-white">
         <div className="flex flex-col w-full gap-2">
             <Label>
@@ -87,7 +87,7 @@ function FormComponent({ elementInstance, submitValue, isInvalid, defaultValue }
     }, [isInvalid]);
 
     const element = elementInstance as CustomInstance
-    const { label, required, placeholder, helperText } = element.extraAttributes;
+    const { label, required, helperText } = element.extraAttributes;
 
     return <div className="text-white">
         <div className="flex flex-col w-full gap-2">
@@ -147,13 +147,11 @@ function PropertiesComponent({ elementInstance }: { elementInstance: FormElement
     }, [element, form]);
 
     const applyChanges = (values: propertiesFormSchemaType) => {
-        const { label, required, helperText } = values;
         updateElement(element.id, {
             ...element,
             extraAttributes: { ...values }
         })
     };
-
 
     return <Form {...form}>
         <form onBlur={form.handleSubmit(applyChanges)} onSubmit={(e) => {
