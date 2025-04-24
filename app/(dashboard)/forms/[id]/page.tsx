@@ -8,8 +8,10 @@ import { HiCursorClick } from "react-icons/hi";
 import { TbArrowBounce } from "react-icons/tb";
 import { ElementsType, FormElementInstance, FormElements } from "@/components/FormElements";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { formatDistance } from "date-fns";
+import { format, formatDistance } from "date-fns";
 import { ReactNode } from "react";
+import { Badge } from "@/components/ui/badge";
+import { Checkbox } from "@/components/ui/checkbox";
 
 const FormDetailPage = async ({ params }: { params: { id: string } }) => {
     const { id } = await params;
@@ -105,6 +107,11 @@ const SubmissionTable = async ({ id }: { id: number }) => {
     FormElements.forEach((element) => {
         switch (element.type) {
             case "TextField":
+            case "NumberField":
+            case "TextAreaField":
+            case "DateField":
+            case "SelectField":
+            case "CheckboxField":
                 columns.push({
                     id: element.id,
                     label: element.extraAttributes?.label,
@@ -168,5 +175,18 @@ const SubmissionTable = async ({ id }: { id: number }) => {
 
 const RowCell = ({ type, value }: { type: ElementsType, value: string }) => {
     let node: ReactNode = value;
+
+    switch (type) {
+        case "DateField":
+            if (!value) break;
+            const date = new Date(value);
+            node = <Badge variant={"outline"}>{format(date, "dd/MM/yyyy")}</Badge>;
+            break;
+        case "CheckboxField":
+            if (!value) break;
+            const checked = value === "true";
+            node = <Checkbox checked={checked} disabled />;
+            break;
+    }
     return <TableCell>{node}</TableCell>
 }

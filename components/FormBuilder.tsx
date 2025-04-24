@@ -18,16 +18,17 @@ import { BsArrowLeft, BsArrowRight } from "react-icons/bs"
 
 const FormBuilder = ({ form }: { form: Form }) => {
 
-    const { setElements } = useDesigner();
+    const { setElements, setSelectedElement } = useDesigner();
     const [isReady, setIsReady] = useState<boolean>(false);
 
     useEffect(() => {
         if (isReady) return;
         const elements = JSON.parse(form.content);
         setElements(elements);
+        setSelectedElement(null);
         const readyTimeout = setTimeout(() => setIsReady(true), 500);
         return () => clearTimeout(readyTimeout);
-    }, [form, setElements])
+    }, [form, setElements, setSelectedElement])
 
     const mouseSensor = useSensor(MouseSensor, {
         activationConstraint: {

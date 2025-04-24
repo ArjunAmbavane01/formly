@@ -3,7 +3,7 @@ import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, 
 import { Button } from './ui/button'
 import { MdOutlinePublish } from "react-icons/md"
 import { toast } from 'sonner'
-import { FaIcons } from 'react-icons/fa'
+import { FaSpinner } from 'react-icons/fa'
 import { PublishForm } from '@/actions/form'
 import { useRouter } from 'next/navigation'
 
@@ -53,7 +53,7 @@ const PublishFormBtn = ({ id }: { id: number }) => {
                         }}
                     >
                         Proceed
-                        {loading && <FaIcons className="animate-spin" />}
+                        {loading && <FaSpinner className="animate-spin" />}
                     </AlertDialogAction>
                 </AlertDialogFooter>
             </AlertDialogContent>

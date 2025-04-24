@@ -12,6 +12,7 @@ import { Form, FormControl, FormDescription, FormMessage, FormField, FormItem, F
 import { Switch } from "../ui/switch";
 import { IoMdCheckbox } from "react-icons/io"
 import { cn } from "@/lib/utils";
+import { Checkbox } from "../ui/checkbox";
 
 const type: ElementsType = "CheckboxField";
 
@@ -41,7 +42,7 @@ export const CheckboxFieldFormElement: FormElement = {
     propertiesComponent: PropertiesComponent,
     validate: (formElement: FormElementInstance, currentValue: string): boolean => {
         const element = formElement as CustomInstance;
-        if (element.extraAttributes.required) return currentValue !== "true";
+        if (element.extraAttributes.required) return currentValue === "true";
         return true;
     }
 }
@@ -58,21 +59,23 @@ function DesignerComponent({ elementInstance }: { elementInstance: FormElementIn
     const id = `checkbox-${element.id}`
     return (
         <div className="flex items-start space-x-2">
-            <div className="text-white">
-        <div className="flex flex-col w-full gap-2">
-            <Label>
-                {label}
-                {required && "*"}
-            </Label>
-        </div>
-    </div>
+            <Checkbox id={id} />
+            <div className="flex flex-col w-full gap-2">
+                <Label htmlFor={id}>
+                    {label}
+                    {required && "*"}
+                </Label>
+                {helperText && (
+                    <p className="text-muted-foreground text-[0.8rem]">{helperText}</p>
+                )}
+            </div>
         </div>
     )
 }
 
 function FormComponent({ elementInstance, submitValue, isInvalid, defaultValue }: { elementInstance: FormElementInstance, submitValue?: SubmitFunction, isInvalid?: boolean, defaultValue?: string }) {
 
-    const [value, setValue] = useState(defaultValue || "");
+    const [value, setValue] = useState<boolean>(defaultValue === "true" ? true : false);
     const [error, setError] = useState(false);
 
     useEffect(() => {
@@ -80,38 +83,43 @@ function FormComponent({ elementInstance, submitValue, isInvalid, defaultValue }
     }, [isInvalid]);
 
     const element = elementInstance as CustomInstance
-    const { label, required, placeholder, helperText } = element.extraAttributes;
+    const { label, required, helperText } = element.extraAttributes;
+    const id = `checkbox-${element.id}`
 
-    return <div className="text-white">
-        <div className="flex flex-col w-full gap-2">
-            <Label className={cn(error && "text-red-500")}>
-                {label}
-                {required && " *"}
-            </Label>
-            <Input
+    return (
+        <div className="flex items-start space-x-2">
+            <Checkbox
+                id={id}
+                checked={value}
                 className={cn(error && "border-red-500")}
-                placeholder={placeholder}
-                onChange={(e) => setValue(e.target.value)}
-                onBlur={(e) => {
+                onCheckedChange={(checked) => {
+                    let value = false;
+                    if (checked === true) value = true;
+                    setValue(value);
                     if (!submitValue) return;
-                    const valid = CheckboxFieldFormElement.validate(element, e.target.value);
+                    const stringValue = value ? "true" : "false";
+                    const valid = CheckboxFieldFormElement.validate(element, stringValue);
                     setError(!valid);
-                    if (!valid) return;
-                    submitValue(element.id, e.target.value);
+                    submitValue(element.id, stringValue);
                 }}
-                value={value}
             />
-            {helperText && (
-                <p className={cn("text-muted-foreground text-[0.8rem]", error && "text-red-500")}>{helperText}</p>
-            )}
+            <div className="flex flex-col w-full gap-2">
+                <Label htmlFor={id} className={cn(error && "border-red-500")}>
+                    {label}
+                    {required && "*"}
+                </Label>
+                {helperText && (
+                    <p className={cn("text-muted-foreground text-[0.8rem]", error && "text-red-500")}>{helperText}</p>
+                )}
+            </div>
         </div>
-    </div>
+    )
 }
 
 function PropertiesComponent({ elementInstance }: { elementInstance: FormElementInstance }) {
     const { updateElement } = useDesigner();
     const element = elementInstance as CustomInstance;
-    const { label, required, placeholder, helperText } = element.extraAttributes;
+    const { label, required, helperText } = element.extraAttributes;
 
     const form = useForm<propertiesFormSchemaType>({
         resolver: zodResolver(propertiesSchema),
@@ -154,7 +162,7 @@ function PropertiesComponent({ elementInstance }: { elementInstance: FormElement
                     </FormItem>
                 )}
             />
-           
+
             <FormField
                 control={form.control}
                 name="helperText"
